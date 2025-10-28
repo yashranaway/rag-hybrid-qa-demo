@@ -11,12 +11,13 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import config
 from retrieval.dense_retriever import DenseRetriever
 from retrieval.sparse_retriever import SparseRetriever
+from retrieval.reranker import CrossEncoderReranker
 
 
 class HybridRetriever:
     """Hybrid retriever combining dense and sparse retrieval methods."""
     
-    def __init__(self, dense_weight=None, bm25_weight=None, use_rrfusion=None):
+    def __init__(self, dense_weight=None, bm25_weight=None, use_rrfusion=None, use_reranker=False):
         """
         Initialize hybrid retriever.
         
@@ -27,6 +28,7 @@ class HybridRetriever:
         """
         self.dense_retriever = DenseRetriever()
         self.sparse_retriever = SparseRetriever()
+        self.reranker = CrossEncoderReranker() if use_reranker else None
         
         self.dense_weight = dense_weight if dense_weight is not None else config.DENSE_WEIGHT
         self.bm25_weight = bm25_weight if bm25_weight is not None else config.BM25_WEIGHT
@@ -147,7 +149,11 @@ class HybridRetriever:
                 combined = self._reciprocal_rank_fusion(dense_res, sparse_res)
             else:
                 combined = self._score_fusion(dense_res, sparse_res)
-            
+
+            # Optional cross-encoder reranking
+            if self.reranker is not None:
+                combined = self.reranker.rerank(queries[combined_results.__len__()], combined, top_k)
+
             # Return top-k
             combined_results.append(combined[:top_k])
         

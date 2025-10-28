@@ -55,7 +55,7 @@ def _clean_text(text: str, limit: int = 160) -> str:
 @app.on_event("startup")
 def _load_models():
     global baseline_model, rag_model, qa_reader
-    retriever = HybridRetriever()
+    retriever = HybridRetriever(use_reranker=True)
     retriever.load_index("./retrieval/hybrid_index")
 
     baseline_model = BaseQAModel(device="cpu")
