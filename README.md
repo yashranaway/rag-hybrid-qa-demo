@@ -1,12 +1,11 @@
-<div align="center">
-  <h1>Retrieval‑Augmented Transformer Demo</h1>
-  <p>Baseline vs RAG (Hybrid Retrieval + Extractive Reader)</p>
-  <img src="results/before_after.png" alt="Before vs After" width="720" />
-</div>
+# Retrieval‑Augmented Transformer Demo
 
-<div style="margin:16px 0;padding:12px 14px;border:1px solid #f5c6cb;border-left:4px solid #e74c3c;background:#fff5f5;">
-  <strong>Note:</strong> Accuracy is intentionally modest due to local CPU/low-spec constraints; the full RAG pipeline (hybrid retrieval + fusion + context injection + extractive reader) is fully implemented and ready to scale.
-</div>
+Baseline vs RAG (Hybrid Retrieval + Extractive Reader)
+
+![Before vs After](results/before_after.png)
+
+> [!IMPORTANT]
+> Accuracy is intentionally modest due to local CPU/low‑spec constraints; the full RAG pipeline (hybrid retrieval + fusion + context injection + extractive reader) is fully implemented and ready to scale.
 
 ---
 
@@ -39,7 +38,3 @@ Open http://localhost:5173 and ask a question. The right panel shows the RAG ans
 ## Notes
 - If CORS errors appear, ensure backend runs on 127.0.0.1:8000.
 - The reader uses `distilbert-base-uncased-distilled-squad` for accurate spans from sources.
-
-## Accuracy note
-- This demo uses a small model and a subset of SQuAD for fast, local runs on CPU. As a result, absolute accuracy (F1/EM) is modest.
-- The full RAG implementation—hybrid retrieval, fusion, context injection, and extractive reading—is complete and ready to scale with larger models/datasets and GPU for higher accuracy.
